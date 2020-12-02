@@ -1,0 +1,56 @@
+
+.roleContainer {
+  grid-area: header;
+
+}
+.AllMessages {
+  grid-area: chat;
+}
+.userListDiv {
+  grid-area: list;
+}
+.nightDayFunction {
+  grid-area: forms;
+}
+
+.mainContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "header header header header"
+    "chat chat list forms";
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+#messagesContainer {
+  min-height: 300px;
+  border: 1px solid black;
+}
+.message {
+  border: 1px solid black;
+}
+.meta {
+  font-size: 12px;
+  margin:auto;
+}
+.text {
+  font-size: 18px;
+}
+
+#NightForm {
+  visibility: hidden;
+}
+
+#DayForm {
+  visibility: hidden;
+}
