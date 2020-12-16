@@ -39,7 +39,7 @@ socket.on('roomUsers', ({users}) => {
   outputUsers(users);
 });
 
-socket.on('gameStarted', () => {// T12 C5 
+socket.on('gameStarted', () => {// T12 C5
   socket.emit('getRole');
   removeButton();
 });
