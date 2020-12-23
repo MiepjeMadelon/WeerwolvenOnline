@@ -1,7 +1,7 @@
 
 var users = [];
 var playerinfo = [];
-var numWerewolves = 0;
+var numAliens = 0;
 
 function addUser(id, name) {
   //adds user to the game
@@ -32,15 +32,15 @@ function changeCurrentUserStatus(id, newStatus) {
 
 function getUsersActiveAlive() {
   alive = users.filter(user => user.status === "Alive");
-  alivenotburger = alive.filter(user => user.role !== 'burger');
-  return alivenotburger.filter(user => user.role !== 'weerwolf(nietStemmen)');
+  alivenotvillager = alive.filter(user => user.role !== 'villager');
+  return alivenotvillager.filter(user => user.role !== 'alien(nietStemmen)');
 }
 
 function getUsersActiveAliveNoBeul() {
   alive = users.filter(user => user.status === "Alive");
-  alivenotburger = alive.filter(user => user.role !== 'burger');
-  alivenotburgernotWW = alivenotburger.filter(user => user.role !== 'weerwolf(nietStemmen)');
-  return alivenotburgernotWW.filter(user => user.role !== 'beul');
+  alivenotvillager = alive.filter(user => user.role !== 'villager');
+  alivenotvillagernotWW = alivenotvillager.filter(user => user.role !== 'alien(nietStemmen)');
+  return alivenotvillagernotWW.filter(user => user.role !== 'beul');
 }
 
 function getCurrentUser(id) {
@@ -81,61 +81,61 @@ function getHighest(array) //van https://stackoverflow.com/questions/1053843/get
 function getOutcomeNight(votes) {
   //vote = {roleVoter: role, votedFor: vote, votedForId: voteid, votedWhat: what};
   doden = [];
-  voteW = votes.find(vote => vote.roleVoter === 'weerwolf');
-  weerwolfVoted = true;
-  const indexW = votes.findIndex(user => user.roleVoter === 'weerwolf');
+  voteW = votes.find(vote => vote.roleVoter === 'alien');
+  alienVoted = true;
+  const indexW = votes.findIndex(user => user.roleVoter === 'alien');
   if (indexW == -1) {
-    weerwolfVoted = false;
+    alienVoted = false;
   }
-  voteH = votes.find(vote => vote.roleVoter === 'heks');
-  heksVoted = true;
-  const indexH = votes.findIndex(user => user.roleVoter === 'heks');
+  voteH = votes.find(vote => vote.roleVoter === 'chemist');
+  chemistVoted = true;
+  const indexH = votes.findIndex(user => user.roleVoter === 'chemist');
   if (indexH == -1) {
-    heksVoted = false;
+    chemistVoted = false;
   }
-  voteZ = votes.find(vote => vote.roleVoter === 'ziener');
-  zienerVoted = true;
-  const indexZ = votes.findIndex(user => user.roleVoter === 'ziener');
+  voteZ = votes.find(vote => vote.roleVoter === 'researcher');
+  researcherVoted = true;
+  const indexZ = votes.findIndex(user => user.roleVoter === 'researcher');
   if (indexZ == -1) {
-    zienerVoted = false;
+    researcherVoted = false;
   }
-  voteG = votes.find(vote => vote.roleVoter === 'genezer');
-  genezerVoted = true;
-  const indexG = votes.findIndex(user => user.roleVoter === 'genezer');
+  voteG = votes.find(vote => vote.roleVoter === 'doctor');
+  doctorVoted = true;
+  const indexG = votes.findIndex(user => user.roleVoter === 'doctor');
   if (indexG == -1) {
-    genezerVoted = false;
+    doctorVoted = false;
   }
-  voteS = votes.find(vote => vote.roleVoter === 'slet');
-  sletVoted = true;
-  const indexS = votes.findIndex(user => user.roleVoter === 'slet');
+  voteS = votes.find(vote => vote.roleVoter === 'slut');
+  slutVoted = true;
+  const indexS = votes.findIndex(user => user.roleVoter === 'slut');
   if (indexS == -1) {
-    sletVoted = false;
+    slutVoted = false;
   }
-  console.log('test', weerwolfVoted);
-  if (weerwolfVoted) {
-    if (genezerVoted) {
+  console.log('test', alienVoted);
+  if (alienVoted) {
+    if (doctorVoted) {
       if (voteW.votedForId != voteG.votedForId) {
-        console.log(heksVoted);
-        if (heksVoted) {
+        console.log(chemistVoted);
+        if (chemistVoted) {
           if (voteH.votedWhat != 'levend' || voteH.votedForId != voteW.votedForId) {
             deadUser = getCurrentUser(voteW.votedForId);
             changeCurrentUserStatus(deadUser.id, 'Dead');
             doden.push(deadUser);
-            if (sletVoted) {
+            if (slutVoted) {
               if (voteS.votedForId == voteW.votedForId) {
-                deadUser2 = getUserRole('slet');
+                deadUser2 = getUserRole('slut');
                 changeCurrentUserStatus(deadUser2.id, 'Dead');
                 doden.push(deadUser2);
               }
-            } //als slet dood is gebeurt er niets
+            } //als slut dood is gebeurt er niets
           }
-        } else { //heks dood of afwezig
+        } else { //chemist dood of afwezig
           deadUser = getCurrentUser(voteW.votedForId);
           changeCurrentUserStatus(deadUser.id, 'Dead');
           doden.push(deadUser);
-          if (sletVoted) {
+          if (slutVoted) {
             if (voteS.votedForId == voteW.votedForId) {
-              deadUser2 = getUserRole('slet');
+              deadUser2 = getUserRole('slut');
               changeCurrentUserStatus(deadUser2.id, 'Dead');
               doden.push(deadUser2);
             }
@@ -145,43 +145,43 @@ function getOutcomeNight(votes) {
 
 
       }
-    } else { //genezer dood
-      if (heksVoted) {
+    } else { //doctor dood
+      if (chemistVoted) {
         if (voteH.votedWhat != 'levend' || voteH.votedForId != voteW.votedForId) {
           deadUser = getCurrentUser(voteW.votedForId);
           changeCurrentUserStatus(deadUser.id, 'Dead');
           doden.push(deadUser);
-          if (sletVoted) {
+          if (slutVoted) {
             if (voteS.votedForId == voteW.votedForId) {
-              deadUser2 = getUserRole('slet');
+              deadUser2 = getUserRole('slut');
               changeCurrentUserStatus(deadUser2.id, 'Dead');
               doden.push(deadUser2);
             }
-          } //als slet dood is gebeurt er niets
+          } //als slut dood is gebeurt er niets
         }
-      } else { //heks dood of afwezig
+      } else { //chemist dood of afwezig
         deadUser = getCurrentUser(voteW.votedForId);
         changeCurrentUserStatus(deadUser.id, 'Dead');
         doden.push(deadUser);
         if (voteS.votedForId == voteW.votedForId) {
-          deadUser2 = getUserRole('slet');
+          deadUser2 = getUserRole('slut');
           changeCurrentUserStatus(deadUser2.id, 'Dead');
           doden.push(deadUser2);
         }
       }
     }
-    if (heksVoted) {
-      if (genezerVoted) {
+    if (chemistVoted) {
+      if (doctorVoted) {
         if(voteH.voteWhat == 'dood' && voteH.votedForId != voteG.votedForId && voteH.votedForId != 'noOne') {
           deadUser = getCurrentUser(voteH.votedForId);
           changeCurrentUserStatus(deadUser.id, 'Dead');
           doden.push(deadUser);
-          if (sletVoted) {
+          if (slutVoted) {
             if (voteS.votedForId == voteH.votedForId) {
-              deadUser2 = getUserRole('slet');
+              deadUser2 = getUserRole('slut');
               changeCurrentUserStatus(deadUser2.id, 'Dead');
               doden.push(deadUser2);
-            } //als slet dood is gebeurt er niets
+            } //als slut dood is gebeurt er niets
           }
         }
       } else {
@@ -189,31 +189,31 @@ function getOutcomeNight(votes) {
           deadUser = getCurrentUser(voteH.votedForId);
           changeCurrentUserStatus(deadUser.id, 'Dead');
           doden.push(deadUser);
-          if (sletVoted) {
+          if (slutVoted) {
             if (voteS.votedForId == voteH.votedForId) {
-              deadUser2 = getUserRole('slet');
+              deadUser2 = getUserRole('slut');
               changeCurrentUserStatus(deadUser2.id, 'Dead');
               doden.push(deadUser2);
-            } //als slet dood is gebeurt er niets
+            } //als slut dood is gebeurt er niets
           }
         }
       }
 
-    } //als de heks dood is gebeurt er niets
+    } //als de chemist dood is gebeurt er niets
 
-  } else { //weerwolf dood
-    if (heksVoted) {
-      if (genezerVoted) {
+  } else { //alien dood
+    if (chemistVoted) {
+      if (doctorVoted) {
         if(voteH.voteWhat == 'dood' && voteH.votedForId != voteG.votedForId && voteH.votedForId != 'noOne') {
           deadUser = getCurrentUser(voteH.votedForId);
           changeCurrentUserStatus(deadUser.id, 'Dead');
           doden.push(deadUser);
-          if (sletVoted) {
+          if (slutVoted) {
             if (voteS.votedForId == voteH.votedForId) {
-              deadUser2 = getUserRole('slet');
+              deadUser2 = getUserRole('slut');
               changeCurrentUserStatus(deadUser2.id, 'Dead');
               doden.push(deadUser2);
-            } //als slet dood is gebeurt er niets
+            } //als slut dood is gebeurt er niets
           }
         }
       } else {
@@ -221,17 +221,17 @@ function getOutcomeNight(votes) {
           deadUser = getCurrentUser(voteH.votedForId);
           changeCurrentUserStatus(deadUser.id, 'Dead');
           doden.push(deadUser);
-          if (sletVoted) {
+          if (slutVoted) {
             if (voteS.votedForId == voteH.votedForId) {
-              deadUser2 = getUserRole('slet');
+              deadUser2 = getUserRole('slut');
               changeCurrentUserStatus(deadUser2.id, 'Dead');
               doden.push(deadUser2);
-            } //als slet dood is gebeurt er niets
+            } //als slut dood is gebeurt er niets
           }
         }
       }
 
-    } //als de heks dood is gebeurt er niets
+    } //als de chemist dood is gebeurt er niets
   }
   // if (voteW.votedForId != voteG.votedForId) {
   //   if (voteH.votedWhat != 'levend' || voteH.votedForId != voteW.votedForId) {
@@ -239,7 +239,7 @@ function getOutcomeNight(votes) {
   //     changeCurrentUserStatus(deadUser.id, 'Dead');
   //     doden.push(deadUser);
   //     if (voteS.votedForId == voteW.votedForId) {
-  //       deadUser2 = getUserRole('slet');
+  //       deadUser2 = getUserRole('slut');
   //       changeCurrentUserStatus(deadUser2.id, 'Dead');
   //       doden.push(deadUser2);
   //     }
@@ -249,7 +249,7 @@ function getOutcomeNight(votes) {
   //   changeCurrentUserStatus(deadUser.id, 'Dead');
   //   doden.push(deadUser);
   //   if (voteS.votedForId == voteH.votedForId) {
-  //     deadUser2 = getUserRole('slet');
+  //     deadUser2 = getUserRole('slut');
   //     changeCurrentUserStatus(deadUser2.id, 'Dead');
   //     doden.push(deadUser2);
   //   }
@@ -262,10 +262,10 @@ function checkforwin() {
   win = '';
   living = getUsersAlive();
   alive = users.filter(user => user.status === "Alive");
-  livingWW = alive.filter(user => user.role === 'weerwolf' || user.role === 'weerwolf(nietStemmen)');
+  livingWW = alive.filter(user => user.role === 'alien' || user.role === 'alien(nietStemmen)');
   livingGOODnum = living.length - livingWW.length;
   if (livingGOODnum == 1 || livingGOODnum == 0) {
-    win = 'wolves';
+    win = 'aliens';
   } else if(livingWW == 0) {
     win = 'good'
   } else {
@@ -276,31 +276,31 @@ function checkforwin() {
 function giveRoles(){
   players = getAllUsers();
   numPlayers = players.length;
-  numWerewolves = Math.floor(numPlayers/4);
-  if (numWerewolves % 2 == 0) {
-    numWerewolves++;
+  numAliens = Math.floor(numPlayers/4);
+  if (numAliens % 2 == 0) {
+    numAliens++;
   }
-  numGoodRoles = numPlayers - numWerewolves;
-  goodRoles = ['heks', 'ziener', 'genezer', 'slet', 'beul'];
+  numGoodRoles = numPlayers - numAliens;
+  goodRoles = ['chemist', 'researcher', 'doctor', 'slut', 'beul'];
   numBeginGoodRoles = goodRoles.length;
   for (var i = 0; i < numGoodRoles; i++) {
     if (i >= numBeginGoodRoles) {
-      goodRoles.push('burger');
+      goodRoles.push('villager');
     }
   }
   console.log(goodRoles);
   goodCount = goodRoles.length;
-  badCount = numWerewolves;
+  badCount = numAliens;
   werewolveOne = false;
   for (var i = 0; i < numPlayers; i++) {
       var randomNum = Math.random();
-    //kijkt voor weerwolf
+    //kijkt voor alien
       if (randomNum < 0.25 && badCount != 0) {
         if (!werewolveOne) {
-          players[i].role = 'weerwolf';
+          players[i].role = 'alien';
           werewolveOne = true;
         } else {
-          players[i].role = 'weerwolf(nietStemmen)';
+          players[i].role = 'alien(nietStemmen)';
         }
         badCount--;
       } else if (randomNum >= 0.25 && goodCount != 0) {
@@ -316,10 +316,10 @@ function giveRoles(){
       if (players[i].role == "normaal") {
         if (randomNum >= 0.25 && badCount != 0) {
           if (!werewolveOne) {
-            players[i].role = 'weerwolf';
+            players[i].role = 'alien';
             werewolveOne = true;
           } else {
-            players[i].role = 'weerwolf(nietStemmen)';
+            players[i].role = 'alien(nietStemmen)';
           }
           badCount--;
         } else if (randomNum < 0.25 && goodCount != 0) {
@@ -332,7 +332,7 @@ function giveRoles(){
           console.log(i);
           goodCount--;
         } else {
-          players[i].role = 'burger';
+          players[i].role = 'villager';
         }
       }
   }

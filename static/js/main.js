@@ -19,8 +19,8 @@ socket.on('showName', () => { //ontvangt dat de naam zichtbaar kan worden. C2 T4
 var namesKnown = [];
 var myID = '';
 var dead = false;
-var hekskill = true;
-var hekssave = true;
+var chemistkill = true;
+var chemistsave = true;
 //messages
 socket.on('message', message => { //ontvangt alle berichten en zet ze in de berichten prompt. C3 T6 (begin), anders Bijpad 1
     console.log(message);
@@ -46,29 +46,29 @@ socket.on('takeRole', ({userRole, userID}) => {
   role = userRole;
   myID = userID;
   switch (role) {
-    case 'burger':
-      showRole("Your role is burger. You don't have to do anything at night", role, name);
+    case 'villager':
+      showRole("Your role is villager. You don't have to do anything at night", role, name);
       break;
-    case 'weerwolf':
-      showRole("Your role is weerwolf. You can eat one person each night, together with the others. Be sure to talk to the others before killing a person yourself. !You CAN talk at night!", role);
+    case 'alien':
+      showRole("Your role is alien. You can eat one person each night, together with the others. Be sure to talk to the others before killing a person yourself. !You CAN talk at night!", role);
       break;
-    case 'slet':
-      showRole("Your role is slet. You can sleep with a person each night. If the wolves try to kill you, they'll fail. If they kill the person you're sleeping with, you die as well", role);
+    case 'slut':
+      showRole("Your role is slut. You can sleep with a person each night. If the aliens try to kill you, they'll fail. If they kill the person you're sleeping with, you die as well", role);
       break;
-    case 'heks':
+    case 'chemist':
       showRole("Once in the game you can kill a person and once in the game you can heal a person. Choose wisely", role);
       break;
-    case 'ziener':
+    case 'researcher':
       showRole("Each night you can see the role of one person. Choose wisely", role);
       break;
-    case 'genezer':
+    case 'doctor':
       showRole("You can heal one person each night. The person who gets healed, cannot die that night.", role);
       break;
     case 'beul':
       showRole("At the beginning of the game, you have to choose one target. Your role is to make sure this target is hanged anywhere in the game", role);
       break;
-    case 'weerwolf(nietStemmen)':
-      showRole("Your role is weerwolf. You can eat one person each night, together with the others. Be sure to talk to the others before killing a person yourself. !You CAN talk at night!, you cannot vote", role);
+    case 'alien(nietStemmen)':
+      showRole("Your role is alien. You can eat one person each night, together with the others. Be sure to talk to the others before killing a person yourself. !You CAN talk at night!, you cannot vote", role);
       break;
     default:
       showRole("We couldn't find anything for your role", role);
@@ -136,7 +136,7 @@ nightForm.addEventListener('submit', e => {
   voteid = document.querySelector('input[name="targetSelect"]:checked').id;
   console.log(vote);
   console.log(voteid);
-  if (role == 'heks') {
+  if (role == 'chemist') {
     what = document.getElementById("levendDood").value;
   } else {
     what = 'nvt';
@@ -234,14 +234,14 @@ function showDayForm(usersAlive) {
 function showNightFunction(welkeRol, allUsers, allAliveUsers, firstNight) {
   console.log(welkeRol);
   switch (welkeRol) {
-    case 'burger':
+    case 'villager':
       //print niets uit
       nightForm.innerHTML = `<h2>Je hebt deze nacht niets te doen</h2>`;
       break;
-    case 'weerwolf':
+    case 'alien':
       //print een stem optie
       nightForm.innerHTML = '';
-      nightForm.innerHTML= '<h2>Who would you and the other wolves like to kill?</h2>';
+      nightForm.innerHTML= '<h2>Who would you and the other aliens like to kill?</h2>';
       for (var i = 0; i < allAliveUsers.length; i++) {
         formUser = allAliveUsers[i];
         nightForm.innerHTML += `<input type="radio" id="${formUser.id}" name="targetSelect" value="${formUser.role}">
@@ -249,7 +249,7 @@ function showNightFunction(welkeRol, allUsers, allAliveUsers, firstNight) {
       }
       nightForm.innerHTML += '<input type="submit">';
       break;
-    case 'slet':
+    case 'slut':
       //kiest een optie
       nightForm.innerHTML = '';
       nightForm.innerHTML= '<h2>With whom would you like to spend the night?</h2>';
@@ -260,8 +260,8 @@ function showNightFunction(welkeRol, allUsers, allAliveUsers, firstNight) {
       }
       nightForm.innerHTML += '<input type="submit">';
       break;
-    case 'heks':
-      //kiest een optie en houdt bij hoeveel keer de heks nog over heeft
+    case 'chemist':
+      //kiest een optie en houdt bij hoeveel keer de chemist nog over heeft
       nightForm.innerHTML = '';
       nightForm.innerHTML = '<h2>Do you want to either kill or heal someone?</h2>';
       for (var i = 0; i < allAliveUsers.length; i++) {
@@ -274,7 +274,7 @@ function showNightFunction(welkeRol, allUsers, allAliveUsers, firstNight) {
       nightForm.innerHTML += "<select id='levendDood' name='levendDood'><option value='levend'>Redden</option><option value='dood'>Vermoorden</option></select>";
       nightForm.innerHTML += '<input type="submit">';
       break;
-    case 'ziener':
+    case 'researcher':
       //kiest een optie
       nightForm.innerHTML = '';
       nightForm.innerHTML = '<h2>Of which user do you want to know the role?</h2>';
@@ -285,7 +285,7 @@ function showNightFunction(welkeRol, allUsers, allAliveUsers, firstNight) {
       }
       nightForm.innerHTML += '<input type="submit">';
       break;
-    case 'genezer':
+    case 'doctor':
       //kiest een optie
       nightForm.innerHTML = '';
       nightForm.innerHTML = '<h2>Which player would you like to heal?</h2>';
@@ -311,9 +311,9 @@ function showNightFunction(welkeRol, allUsers, allAliveUsers, firstNight) {
         nightForm.innerHTML = `<h2>Je hebt deze nacht niets te doen</h2>`;
       }
       break;
-    case 'weerwolf(nietStemmen)':
+    case 'alien(nietStemmen)':
       //print niets uit
-      nightForm.innerHTML = `<h2>Overleg met de andere weerwolven wie er dood moet. Een van jullie kan stemmen</h2>`;
+      nightForm.innerHTML = `<h2>Overleg met de andere aliens wie er dood moet. Een van jullie kan stemmen</h2>`;
       break;
     default:
       //you have nothing to do this night

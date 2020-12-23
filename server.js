@@ -49,7 +49,7 @@ io.on('connection', socket => {
       console.log(getAllUsers());
       user = getCurrentUser(socket.id);
       isNight = true;
-      io.emit('message', makeMessage(gameLeader, 'The night has fallen, the chat is now disabled.', gameLeader)); //geeft iedereen het bericht dat de chat is geblokkeerd (behalve voor de weerwolven). Wordt gewoon behandelt en daarom niet meegenomen
+      io.emit('message', makeMessage(gameLeader, 'The night has fallen, the chat is now disabled.', gameLeader)); //geeft iedereen het bericht dat de chat is geblokkeerd (behalve voor de aliens). Wordt gewoon behandelt en daarom niet meegenomen
       io.emit('gameStarted'); //geeft iedereen het bericht dat de chat is gestard. T11 S5
       gameHasBegun = true;
     }
@@ -61,9 +61,9 @@ io.on('connection', socket => {
       if (!isNight) {
         message = makeMessage(user.name, msg, user.role);
         io.emit('message', message);
-      } else if (user.role == 'weerwolf' || user.role == 'weerwolf(nietStemmen)') {
-        message = makeMessage(user.name, msg + '--- from weerwolf', user.role);
-        io.to('weerwolf').emit('message', message);
+      } else if (user.role == 'alien' || user.role == 'alien(nietStemmen)') {
+        message = makeMessage(user.name, msg + '--- from alien', user.role);
+        io.to('alien').emit('message', message);
       }
     }
   });
@@ -73,11 +73,11 @@ io.on('connection', socket => {
     users = getAllUsers();
     aliveUsers = getUsersAlive();
     urole = user.role
-    if (urole == 'weerwolf') {
-      socket.join('weerwolf');
+    if (urole == 'alien') {
+      socket.join('alien');
     }
-    else if (urole == 'weerwolf(nietStemmen)') {
-      socket.join('weerwolf');
+    else if (urole == 'alien(nietStemmen)') {
+      socket.join('alien');
     }
     socket.emit('takeRole', {
       userRole: urole,
@@ -113,8 +113,8 @@ io.on('connection', socket => {
       win = checkforwin();
       if (win == 'good') {
         io.emit('message', makeMessage(gameLeader, 'GOOD HAS WON', gameLeader));
-      } else if (win == 'wolves') {
-        io.emit('message', makeMessage(gameLeader, 'WOLVES HAVE WON', gameLeader));
+      } else if (win == 'aliens') {
+        io.emit('message', makeMessage(gameLeader, 'aliens HAVE WON', gameLeader));
       }
       io.emit('message', makeMessage(gameLeader, 'The voting has ended, the night begins', gameLeader));
       io.emit('night1HasFallen', ({
@@ -149,8 +149,8 @@ io.on('connection', socket => {
           win = checkforwin();
           if (win == 'good') {
             io.emit('message', makeMessage(gameLeader, 'GOOD HAS WON', gameLeader));
-          } else if (win == 'wolves') {
-            io.emit('message', makeMessage(gameLeader, 'WOLVES HAVE WON', gameLeader));
+          } else if (win == 'aliens') {
+            io.emit('message', makeMessage(gameLeader, 'aliens HAVE WON', gameLeader));
           }
         }
         night1Started = false;
@@ -177,8 +177,8 @@ io.on('connection', socket => {
           win = checkforwin();
           if (win == 'good') {
             io.emit('message', makeMessage(gameLeader, 'GOOD HAS WON', gameLeader));
-          } else if (win == 'wolves') {
-            io.emit('message', makeMessage(gameLeader, 'WOLVES HAVE WON', gameLeader));
+          } else if (win == 'aliens') {
+            io.emit('message', makeMessage(gameLeader, 'aliens HAVE WON', gameLeader));
           }
         }
         isNight = false;
@@ -191,7 +191,7 @@ io.on('connection', socket => {
 
       }
     }
-    if (role == 'ziener') {
+    if (role == 'researcher') {
       socket.emit('rolReveal', {
         user: userVoted,
         id: userVoted.id,
@@ -202,8 +202,8 @@ io.on('connection', socket => {
       win = checkforwin();
       if (win == 'good') {
         io.emit('message', makeMessage(gameLeader, 'GOOD HAS WON', gameLeader));
-      } else if (win == 'wolves') {
-        io.emit('message', makeMessage(gameLeader, 'WOLVES HAVE WON', gameLeader));
+      } else if (win == 'aliens') {
+        io.emit('message', makeMessage(gameLeader, 'aliens HAVE WON', gameLeader));
       }
     }
   });
@@ -242,8 +242,8 @@ io.on('connection', socket => {
         win = checkforwin();
         if (win == 'good') {
           io.emit('message', makeMessage(gameLeader, 'GOOD HAS WON', gameLeader));
-        } else if (win == 'wolves') {
-          io.emit('message', makeMessage(gameLeader, 'WOLVES HAVE WON', gameLeader));
+        } else if (win == 'aliens') {
+          io.emit('message', makeMessage(gameLeader, 'aliens HAVE WON', gameLeader));
         }
 
         if (isNight) {
