@@ -5,8 +5,7 @@ const roomUsers = document.getElementById('userList');
 const roleContainer = document.querySelector('.roleContainer');
 const nightForm = document.getElementById('NightForm');
 const dayForm = document.getElementById('DayForm');
-const navBar = document.getElementById('navbar');
-const footer = document.getElementById('footer');
+const navBar = document.getElementById('navBar');
 const { name } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 });
@@ -159,11 +158,9 @@ dayForm.addEventListener('submit', e => {
 
 function changeThemeNight() {
   navBar.className = "navbar navbar-dark bg-dark";
-  footer.className = "footer bg-dark";
 }
 function changeThemeDay() {
   navBar.className = "navbar navbar-light bg-light";
-  footer.className = "footer bg-light";
 }
 
 function createButton() {
@@ -203,21 +200,23 @@ function formatMessage(message) {
 }
 function outputUsers(users) {
   console.log(users);
-  roomUsers.innerHTML = "<tr> <th>Username</th> <th>Role</th> <th>Dead/Alive</th> </tr>";
+  roomUsers.innerHTML = "";
   for (var i = 0; i < users.length; i++) {
     user = users[i];
     if (namesKnown.includes(user.id)) {
-      roomUsers.innerHTML += `<tr id = "${user.id}">
-      <td>${user.name}</td>
-      <td>${user.role}</td>
-      <td>${user.status}</td>
-      </tr>`;
+      roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="">
+        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">${user.name} ${user.role} ${user.status}</h5>
+        </div>
+      </div>`;
     } else {
-      roomUsers.innerHTML += `<tr id = "${user.id}">
-      <td>${user.name}</td>
-      <td>unknown</td>
-      <td>${user.status}</td>
-      </tr>`;
+      roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="">
+        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">${user.name} ${user.status}</h5>
+        </div>
+      </div>`;
     }
   }
 }
