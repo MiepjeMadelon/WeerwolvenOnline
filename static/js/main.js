@@ -141,7 +141,7 @@ nightForm.addEventListener('submit', e => {
   voteid = document.querySelector('input[name="targetSelect"]:checked').id;
   console.log(vote);
   console.log(voteid);
-  if (role == 'researcher') {
+  if (role == 'chemist') {
     what = document.getElementById("levendDood").value;
   } else {
     what = 'nvt';
@@ -209,7 +209,7 @@ function outputUsers(users) {
   for (var i = 0; i < users.length; i++) {
     user = users[i];
     if (namesKnown.includes(user.id)) {
-      userCard = `../images/${user.role}`;
+      userCard = `../images/${user.role}.png`;
       userID = `${user.id}`;
       roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="" id = ${user.id}>
         <img class="card-img-top" src= ${userCard} alt="Card image cap">
@@ -284,7 +284,7 @@ function showNightFunction(welkeRol, allUsers, allAliveUsers, firstNight) {
     case 'researcher':
       //kiest een optie
       nightForm.innerHTML = '';
-      nightForm.innerHTML = '<h2>Of which user do you want to know the role?</h2>';
+      nightForm.innerHTML= '<h2>Of who would you like to know the role?</h2>';
       for (var i = 0; i < allAliveUsers.length; i++) {
         formUser = allAliveUsers[i];
         nightForm.innerHTML += `<input type="radio" id="${formUser.id}" name="targetSelect" value="${formUser.role}">
