@@ -77,16 +77,6 @@ socket.on('takeRole', ({userRole, userID}) => {
 });
 
 
-userCard = `images/${user.role}`;
-userID = `${user.id}`;
-roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="" id = ${user.id}>
-  <img class="card-img-top" src= ${userCard} alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">${user.name} ${user.role} ${user.status}</h5>
-  </div>
-</div>`;
-
-
 socket.on('rolReveal', ({user, id, urole, status, name}) => {
   userCard = `images/${urole}.png`;
   document.getElementById(id).innerHTML = `<div class="card col-4 roleCard YourRoleCard" style="" id = ${id}>
