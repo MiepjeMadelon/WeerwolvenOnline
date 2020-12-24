@@ -78,7 +78,7 @@ socket.on('takeRole', ({userRole, userID}) => {
 
 
 socket.on('rolReveal', ({user, id, urole, status, name}) => {
-  userCard = `images/${urole}.png`;
+  userCard = `../images/${urole}.png`;
   document.getElementById(id).innerHTML = `<div class="card col-4 roleCard YourRoleCard" style="" id = ${id}>
     <img class="card-img-top" src= ${userCard} alt="Card image cap">
     <div class="card-body">
@@ -209,7 +209,7 @@ function outputUsers(users) {
   for (var i = 0; i < users.length; i++) {
     user = users[i];
     if (namesKnown.includes(user.id)) {
-      userCard = `images/${user.role}`;
+      userCard = `../images/${user.role}`;
       userID = `${user.id}`;
       roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="" id = ${user.id}>
         <img class="card-img-top" src= ${userCard} alt="Card image cap">
@@ -219,7 +219,7 @@ function outputUsers(users) {
       </div>`;
     } else {
       roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="" id = ${user.id}>
-      <img class="card-img-top" src= "images/backdrop.png" alt="Card image cap">
+      <img class="card-img-top" src= "../images/backdrop.png" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">${user.name} ${user.status}</h5>
         </div>
