@@ -79,12 +79,11 @@ socket.on('takeRole', ({userRole, userID}) => {
 
 socket.on('rolReveal', ({user, id, urole, status, name}) => {
   userCard = `../images/${urole}.png`;
-  document.getElementById(id).innerHTML = `<div class="card col-4 roleCard YourRoleCard" style="" id = ${id}>
+  document.getElementById(id).innerHTML = `
     <img class="card-img-top" src= ${userCard} alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">${name} ${urole} ${status}</h5>
-    </div>
-  </div>`;
+    </div>`;
   namesKnown.push(id);
   if (myID == user.id && status == 'Dead') {
     dead = true;
