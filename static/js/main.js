@@ -76,10 +76,25 @@ socket.on('takeRole', ({userRole, userID}) => {
   socket.emit('startNight1');
 });
 
+
+userCard = `images/${user.role}`;
+userID = `${user.id}`;
+roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="" id = ${user.id}>
+  <img class="card-img-top" src= ${userCard} alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">${user.name} ${user.role} ${user.status}</h5>
+  </div>
+</div>`;
+
+
 socket.on('rolReveal', ({user, id, urole, status, name}) => {
-  document.getElementById(id).innerHTML = `<td>${name}</td>
-  <td>${urole}</td>
-  <td>${status}</td>`;
+  userCard = `images/${urole}.png`;
+  document.getElementById(id).innerHTML = `<div class="card col-4 roleCard YourRoleCard" style="" id = ${id}>
+    <img class="card-img-top" src= ${userCard} alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">${name} ${urole} ${status}</h5>
+    </div>
+  </div>`;
   namesKnown.push(id);
   if (myID == user.id && status == 'Dead') {
     dead = true;
@@ -136,7 +151,7 @@ nightForm.addEventListener('submit', e => {
   voteid = document.querySelector('input[name="targetSelect"]:checked').id;
   console.log(vote);
   console.log(voteid);
-  if (role == 'chemist') {
+  if (role == 'researcher') {
     what = document.getElementById("levendDood").value;
   } else {
     what = 'nvt';
@@ -204,15 +219,17 @@ function outputUsers(users) {
   for (var i = 0; i < users.length; i++) {
     user = users[i];
     if (namesKnown.includes(user.id)) {
-      roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="">
-        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+      userCard = `images/${user.role}`;
+      userID = `${user.id}`;
+      roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="" id = ${user.id}>
+        <img class="card-img-top" src= ${userCard} alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">${user.name} ${user.role} ${user.status}</h5>
         </div>
       </div>`;
     } else {
-      roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="">
-        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+      roomUsers.innerHTML += `<div class="card col-4 roleCard YourRoleCard" style="" id = ${user.id}>
+      <img class="card-img-top" src= "images/backdrop.png" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">${user.name} ${user.status}</h5>
         </div>
