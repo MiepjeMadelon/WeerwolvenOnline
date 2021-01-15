@@ -73,6 +73,7 @@ io.on('connection', socket => {
     users = getAllUsers();
     aliveUsers = getUsersAlive();
     urole = user.role
+    console.log(user);
     if (urole == 'alien') {
       socket.join('alien');
     }
@@ -137,6 +138,7 @@ io.on('connection', socket => {
     if (night1Started) {
       if (submitVoteNight.length >= activeAlive.length) {
         doden = getOutcomeNight(submitVoteNight);
+        submitVoteNight = [];
         for (var i = 0; i < doden.length; i++) {
           dood = doden[i];
           io.emit('rolReveal', {

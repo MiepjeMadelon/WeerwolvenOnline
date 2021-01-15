@@ -163,10 +163,12 @@ function getOutcomeNight(votes) {
         deadUser = getCurrentUser(voteW.votedForId);
         changeCurrentUserStatus(deadUser.id, 'Dead');
         doden.push(deadUser);
-        if (voteS.votedForId == voteW.votedForId) {
-          deadUser2 = getUserRole('slut');
-          changeCurrentUserStatus(deadUser2.id, 'Dead');
-          doden.push(deadUser2);
+        if (slutVoted) {
+          if (voteS.votedForId == voteW.votedForId) {
+            deadUser2 = getUserRole('slut');
+            changeCurrentUserStatus(deadUser2.id, 'Dead');
+            doden.push(deadUser2);
+          }
         }
       }
     }
